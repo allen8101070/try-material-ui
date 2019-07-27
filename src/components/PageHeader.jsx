@@ -1,5 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -29,6 +30,10 @@ const useStyles = makeStyles(theme => ({
   },
   hide: {
     display: 'none'
+  },
+  logoText: {
+    color: '#fff',
+    textDecoration: 'none'
   }
 }));
 
@@ -54,9 +59,11 @@ export default function PageHeader(props) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
-          Persistent drawer
-        </Typography>
+        <Link to="/" className={classes.logoText}>
+          <Typography variant="h6" noWrap>
+            高鐵查詢系統
+          </Typography>
+        </Link>
       </Toolbar>
     </AppBar>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -28,15 +29,27 @@ const useStyles = makeStyles(theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end'
+  },
+  linkText: {
+    color: '#333',
+    textDecoration: 'none'
   }
 }));
 
 export default function PageSidebar(props) {
   const { handleDrawerClose, open } = props;
-  console.log('TCL: PageSidebar -> open', open);
   const classes = useStyles();
   const theme = useTheme();
-
+  const routerData = [
+    {
+      path: '/',
+      text: '列車發車時刻查詢'
+    },
+    {
+      path: '/THSR-have-seats',
+      text: '尚有座位列車查詢'
+    }
+  ];
   return (
     <Drawer
       className={classes.drawer}
@@ -58,24 +71,15 @@ export default function PageSidebar(props) {
       </div>
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
+        {routerData.map((item, index) => (
+          <Link to={item.path} className={classes.linkText} key={item.text}>
+            <ListItem button>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItem>
+          </Link>
         ))}
       </List>
     </Drawer>
