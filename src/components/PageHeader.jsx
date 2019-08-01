@@ -39,7 +39,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function PageHeader(props) {
   const { handleDrawerOpen, open } = props;
-  console.log('TCL: PageHeader -> open', open);
   const classes = useStyles();
 
   return (
