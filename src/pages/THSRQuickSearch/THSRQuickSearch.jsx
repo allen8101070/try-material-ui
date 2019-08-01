@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
+import THSRQuickSearchFilter from './THSRQuickSearchFilter';
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -32,10 +33,32 @@ const styles = theme => ({
 class THSRQuickSearch extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      AJAXParam: {}
+    };
   }
+  getAJAXParam = (date, originStation, endStation) => {
+    fetch(
+      `https://ptx.transportdata.tw/MOTC/v2/Rail/THSR/DailyTimetable/OD/${originStation}/to/${endStation}/${date}`
+    )
+      .then(function(response) {
+        return response.json();
+      })
+      .then(data => {
+        console.log('TCL: THSRQuickSearch -> getStationData -> data', data);
+        // this.setState({
+        //   ...this.state,
+        //   stationData: data
+        // })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   render() {
-    const { open, classes } = this.props;
+    const { open, classes, stationData } = this.props;
+
     return (
       <main
         className={clsx(classes.content, {
@@ -43,7 +66,11 @@ class THSRQuickSearch extends React.Component {
         })}
       >
         <div className={classes.drawerHeader} />
-        THSRQuickSearch
+        列車發車時刻查詢
+        <THSRQuickSearchFilter
+          stationData={stationData}
+          getAJAXParam={this.getAJAXParam}
+        />
       </main>
     );
   }
